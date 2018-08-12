@@ -17,6 +17,7 @@ use \Workerman\Autoloader;
 
 require_once  __DIR__ . '/../vendor/autoload.php';
 
+$config = require (__DIR__.'/../config/socket.php');
 // bussinessWorker 进程
 $worker = new BusinessWorker();
 // worker名称
@@ -24,7 +25,7 @@ $worker->name = 'ChatBusinessWorker';
 // bussinessWorker进程数量
 $worker->count = 4;
 // 服务注册地址
-$worker->registerAddress = '127.0.0.1:1236';
+$worker->registerAddress = $config['registerAddress'];
 
 // 如果不是在根目录启动，则运行runAll方法
 if(!defined('GLOBAL_START'))

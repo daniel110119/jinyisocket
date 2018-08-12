@@ -17,6 +17,10 @@ class SocketServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
+            __DIR__.'/config/socket.php' => config_path('socket.php'),
+        ], 'config');
+
+        $this->publishes([
             __DIR__ . '/socketserve' => base_path('socketserve'),
         ], 'serve');
 
