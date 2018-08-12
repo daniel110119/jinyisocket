@@ -52,7 +52,7 @@ class SocketService
      */
     public function __construct()
     {
-       Gateway::$registerAddress = '127.0.0.1:1236';
+       Gateway::$registerAddress = config('socket.registerAddress');
        $this->so = app(Gateway::class);
     }
 
