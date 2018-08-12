@@ -20,7 +20,7 @@ $config = require (__DIR__.'/../config/socket.php');
 
 
 // gateway 进程
-$gateway = new Gateway("Websocket://".$config['socket']);//第二个参数 传入$context 开启wss
+$gateway = new Gateway("Websocket://".$config['socket'],$config['ssl']);//第二个参数 传入$context 开启wss
 // 设置名称，方便status时查看
 $gateway->name = 'ChatGateway';
 // 设置进程数，gateway进程数建议与cpu核数相同
