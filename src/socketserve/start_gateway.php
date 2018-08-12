@@ -17,10 +17,12 @@ use \Workerman\Autoloader;
 
 require_once  __DIR__ . '/../vendor/autoload.php';
 $config = require (__DIR__.'/../config/socket.php');
-
-
+$context = [];
+if(count($config['ssl'])){
+    $context['ssl']= $config['ssl'];
+}
 // gateway 进程
-$gateway = new Gateway("Websocket://".$config['socket'],$config['ssl']);//第二个参数 传入$context 开启wss
+$gateway = new Gateway("Websocket://".$config['socket'],$context);//第二个参数 传入$context 开启wss
 // 设置名称，方便status时查看
 $gateway->name = 'ChatGateway';
 // 设置进程数，gateway进程数建议与cpu核数相同
@@ -35,7 +37,7 @@ $gateway->pingInterval = 30;
 // 心跳数据
 $gateway->pingData = '{"type":"ping"}';
 // 服务注册地址
-$gateway->registerAddress = '127.0.0.1:1236';
+$gateway->registerAddress = $config['registerAddress'];
 // 设置transport开启ssl，websocket+ssl即wss
 if(count($config['ssl'])){
   $worker->transport = 'ssl';
