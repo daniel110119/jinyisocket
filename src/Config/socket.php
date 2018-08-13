@@ -10,7 +10,8 @@ return [
     'register'=>'0.0.0.0:1236',//注册地址
     'registerAddress'=>'127.0.0.1:1236',//本地访问同上端口
     'except'=>[
-        '*'
+        '*',                //允许所有网站链接
+//        'http://xxxxx.xx'
     ],
     'ssl'=>[
         // 'local_cert'                 => '磁盘路径/server.pem', // 也可以是crt文件
