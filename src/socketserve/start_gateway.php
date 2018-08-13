@@ -20,10 +20,8 @@ $config = require (__DIR__.'/../config/socket.php');
 if(count($config['ssl'])){
     $context = [];
     $context['ssl']= $config['ssl'];
-    $gateway = new Gateway("Websocket://".$config['socket'],$context);//第二个参数 传入$context 开启wss
-}else{
-    $gateway = new Gateway("Websocket://".$config['socket']);
 }
+$gateway = new Gateway("Websocket://".$config['socket'],$context);//第二个参数 传入$context 开启wss
 // gateway 进程
 // 设置名称，方便status时查看
 $gateway->name = 'ChatGateway';
@@ -49,8 +47,13 @@ $gateway->onConnect = function($connection) use($config)
 {
     $connection->onWebSocketConnect = function($connection , $http_header) use($config)
     {
-        if(!in_array($_SERVER['HTTP_ORIGIN'],$config['except']) || in_array('*',$config['except'])){
+        if(in_array($_SERVER['HTTP_ORIGIN'],$config['except']) || in_array('*',$config['except'])){
+
+        }else{
             $connection->close();
+            $myfile = fopen(__DIR__.'/../storage/logs/socket_log_'.date('Y_m_d').'.log', "a");
+            fwrite($myfile,'非法链接：'.$_SERVER['HTTP_ORIGIN']."\n");
+            fclose($myfile);
         }
     };
 }; 
